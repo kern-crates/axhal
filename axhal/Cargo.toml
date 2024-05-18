@@ -13,9 +13,9 @@ documentation = "https://rcore-os.github.io/arceos/axhal/index.html"
 smp = []
 alloc = []
 fp_simd = []
-paging = ["axalloc", "page_table"]
+#paging = ["axalloc", "page_table"]
 irq = []
-tls = ["alloc"]
+#tls = ["alloc"]
 monolithic = []
 default = []
 
@@ -24,19 +24,19 @@ log = "0.4"
 cfg-if = "1.0"
 bitflags = "2.2"
 static_assertions = "1.1.0"
-axlog2 = { path = "../axlog2" }
-axconfig = { path = "../axconfig" }
-axalloc = { path = "../axalloc", optional = true }
-kernel_guard = { path = "../../crates/kernel_guard" }
-spinlock = { path = "../../crates/spinlock" }
-ratio = { path = "../../crates/ratio" }
-lazy_init = { path = "../../crates/lazy_init" }
-page_table = { path = "../../crates/page_table", optional = true }
-page_table_entry = { path = "../../crates/page_table_entry" }
-percpu2 = { path = "../../crates/percpu2" }
-memory_addr = { path = "../../crates/memory_addr" }
-handler_table = { path = "../../crates/handler_table" }
-early_console = { path = "../../crates/early_console" }
+#axlog2 = { path = "../axlog2" }
+axconfig = { git = "ssh://git@github.com/shilei-massclouds/axconfig" }
+#axalloc = { path = "../axalloc", optional = true }
+kernel_guard_base = { git = "ssh://git@github.com/shilei-massclouds/kernel_guard_base" }
+#spinlock = { path = "../../crates/spinlock" }
+#ratio = { path = "../../crates/ratio" }
+#lazy_init = { path = "../../crates/lazy_init" }
+#page_table = { path = "../../crates/page_table", optional = true }
+#page_table_entry = { path = "../../crates/page_table_entry" }
+percpu2 = { git = "ssh://git@github.com/shilei-massclouds/percpu2" }
+memory_addr = { git = "ssh://git@github.com/shilei-massclouds/memory_addr" }
+#handler_table = { path = "../../crates/handler_table" }
+early_console = { git = "ssh://git@github.com/shilei-massclouds/early_console" }
 
 [target.'cfg(target_arch = "x86_64")'.dependencies]
 x86 = "0.52"
@@ -51,9 +51,9 @@ sbi-rt = { version = "0.0.2", features = ["legacy"] }
 [target.'cfg(target_arch = "aarch64")'.dependencies]
 aarch64-cpu = "9.3"
 tock-registers = "0.8"
-arm_gic = { path = "../../crates/arm_gic" }
-arm_pl011 = { path = "../../crates/arm_pl011" }
-dw_apb_uart = { path = "../../crates/dw_apb_uart" }
+#arm_gic = { path = "../../crates/arm_gic" }
+#arm_pl011 = { path = "../../crates/arm_pl011" }
+#dw_apb_uart = { path = "../../crates/dw_apb_uart" }
 
 [build-dependencies]
-axconfig = { path = "../axconfig" }
+axconfig = { git = "ssh://git@github.com/shilei-massclouds/axconfig" }
