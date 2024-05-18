@@ -87,7 +87,6 @@ pub fn reuse_page_table_root() {
     }
 }
 
-#[cfg(feature = "paging")]
 fn sync_kernel_mappings(src_paddr: PhysAddr, dst_paddr: PhysAddr) {
     let dst_ptr = phys_to_virt(dst_paddr).as_mut_ptr();
     let src_ptr = phys_to_virt(src_paddr).as_ptr();

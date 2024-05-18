@@ -48,7 +48,6 @@ pub mod tls;
 // #[cfg(feature = "irq")]
 // pub mod irq;
 
-#[cfg(feature = "paging")]
 pub mod paging;
 
 // replace it with early_console
