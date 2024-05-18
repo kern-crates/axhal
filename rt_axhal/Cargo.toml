@@ -1,0 +1,10 @@
+[package]
+name = "rt_axhal"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+arch_boot = { git = "ssh://git@github.com/shilei-massclouds/arch_boot.git" }
+axhal = { git = "ssh://git@github.com/shilei-massclouds/axhal.git" }
