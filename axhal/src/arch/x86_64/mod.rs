@@ -4,7 +4,6 @@ mod gdt;
 pub mod sysno;
 
 mod trap;
-#[cfg(feature = "paging")]
 use crate::mem::PAGE_SIZE_4K;
 use core::arch::asm;
 use memory_addr::{PhysAddr, VirtAddr};
@@ -16,10 +15,8 @@ pub use self::context::{start_thread, ExtendedState, FxsaveArea, TaskContext, Tr
 pub use self::gdt::GdtStruct;
 pub use x86_64::structures::tss::TaskStateSegment;
 pub const TASK_SIZE: usize = 0x40_0000_0000;
-#[cfg(feature = "paging")]
 pub const STACK_SIZE: usize = 32 * PAGE_SIZE_4K;
 
-#[cfg(feature = "paging")]
 pub const TASK_UNMAPPED_BASE: usize = (TASK_SIZE / 3) & !(PAGE_SIZE_4K - 1);
 /*
  * This is the location that an ET_DYN program is loaded if exec'ed.
