@@ -6,7 +6,6 @@ mod trap;
 pub use trap::ret_from_fork;
 pub mod sysno;
 
-#[cfg(feature = "paging")]
 use crate::mem::PAGE_SIZE_4K;
 use memory_addr::{PhysAddr, VirtAddr};
 use riscv::asm;
@@ -15,7 +14,6 @@ use riscv::register::{satp, sstatus, stvec};
 pub use self::context::{start_thread, GeneralRegisters, TaskContext, TrapFrame};
 
 pub const TASK_SIZE: usize = 0x40_0000_0000;
-#[cfg(feature = "paging")]
 pub const STACK_SIZE: usize = 32 * PAGE_SIZE_4K;
 
 /*
@@ -31,7 +29,6 @@ pub const ELF_ET_DYN_BASE: usize = (TASK_SIZE / 3) * 2;
  * This decides where the kernel will search for a free chunk of vm
  * space during mmap's.
  */
-#[cfg(feature = "paging")]
 pub const TASK_UNMAPPED_BASE: usize = (TASK_SIZE / 3) & !(PAGE_SIZE_4K - 1);
 
 /// Status register flags
