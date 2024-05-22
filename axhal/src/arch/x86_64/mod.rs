@@ -128,3 +128,8 @@ pub unsafe fn write_page_table_root0(root_paddr: PhysAddr) {
 pub fn local_flush_icache_all() {
     unimplemented!("local_flush_icache_all");
 }
+
+pub fn early_init() {
+    crate::x86_64::dtables::init_primary();
+    crate::x86_64::time::init_early();
+}

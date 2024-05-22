@@ -160,3 +160,6 @@ pub fn gp_in_global() -> usize {
 pub const EXC_INST_PAGE_FAULT: usize = 12;
 pub const EXC_LOAD_PAGE_FAULT: usize = 13;
 pub const EXC_STORE_PAGE_FAULT: usize = 15;
+
+pub fn early_init() {
+}
