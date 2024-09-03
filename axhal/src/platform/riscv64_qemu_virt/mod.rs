@@ -10,6 +10,8 @@ pub mod irq;
 ///
 /// For example, the interrupt controller and the timer.
 pub fn platform_init() {
+    axconfig::init_once!();
+
     #[cfg(feature = "irq")]
     self::irq::init_percpu();
     self::time::init_percpu();

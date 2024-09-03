@@ -16,6 +16,7 @@ pub use self::gdt::GdtStruct;
 pub use x86_64::structures::tss::TaskStateSegment;
 pub const TASK_SIZE: usize = 0x40_0000_0000;
 pub const STACK_SIZE: usize = 32 * PAGE_SIZE_4K;
+pub const STACK_TOP: usize = TASK_SIZE;
 
 pub const TASK_UNMAPPED_BASE: usize = (TASK_SIZE / 3) & !(PAGE_SIZE_4K - 1);
 /*

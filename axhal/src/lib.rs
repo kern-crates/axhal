@@ -42,23 +42,21 @@ pub mod mem;
 pub mod time;
 pub mod trap;
 
+/// Miscellaneous operation, e.g. terminate the system.
+pub mod misc;
+
 #[cfg(feature = "tls")]
 pub mod tls;
 
 // #[cfg(feature = "irq")]
 // pub mod irq;
 
-pub mod paging;
+//pub mod paging;
 
 // replace it with early_console
 // /// Console input and output.
 pub mod console {
     pub use early_console::*;
-}
-
-/// Miscellaneous operation, e.g. terminate the system.
-pub mod misc {
-    pub use super::platform::misc::*;
 }
 
 #[cfg(target_arch = "x86_64")]
@@ -76,3 +74,10 @@ pub use self::platform::platform_init;
 
 #[cfg(feature = "smp")]
 pub use self::platform::platform_init_secondary;
+
+pub fn arch_init_early(cpu_id: usize) {
+    axconfig::init_once!();
+
+    crate::cpu::init_primary(cpu_id);
+    crate::arch::early_init();
+}

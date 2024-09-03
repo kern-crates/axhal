@@ -22,6 +22,8 @@ pub mod irq {
 
 /// Initializes the platform devices for the primary CPU.
 pub fn platform_init() {
+    axconfig::init_once!();
+
     self::apic::init_primary();
     self::time::init_primary();
 }

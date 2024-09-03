@@ -10,11 +10,13 @@ use crate::mem::PAGE_SIZE_4K;
 use memory_addr::{PhysAddr, VirtAddr};
 use riscv::asm;
 use riscv::register::{satp, sstatus, stvec};
+use axerrno::{LinuxError, linux_err};
 
 pub use self::context::{start_thread, GeneralRegisters, TaskContext, TrapFrame};
 
 pub const TASK_SIZE: usize = 0x40_0000_0000;
 pub const STACK_SIZE: usize = 32 * PAGE_SIZE_4K;
+pub const STACK_TOP: usize = TASK_SIZE;
 
 /*
  * This is the location that an ET_DYN program is loaded if exec'ed.
@@ -37,6 +39,11 @@ pub const SR_SPP:   usize = 0x00000100; /* Previously Supervisor */
 pub const SR_FS_INITIAL: usize = 0x00002000;
 pub const SR_UXL_64: usize = 0x200000000; /* XLEN = 64 for U-mode */
 pub const SR_SUM: usize = 0x00040000; /* Supervisor User Memory access */
+
+#[inline]
+pub fn user_mode() -> bool {
+    sstatus::read().spp() == sstatus::SPP::User
+}
 
 #[inline]
 pub fn disable_sum() {
@@ -155,6 +162,70 @@ pub fn gp_in_global() -> usize {
     let gp;
     unsafe { core::arch::asm!("mv {}, gp", out(reg) gp) };
     gp
+}
+
+#[inline]
+pub fn __get_user_asm(ptr: usize) -> (u8, usize) {
+    let mut _tmp = 0;
+    let mut x: u8;
+    let mut err: usize = 0;
+    unsafe { core::arch::asm!(
+        "1:",
+        "   lb {x}, ({ptr})",
+        "2:",
+        "   .section .fixup,\"ax\"",
+        "   .balign 4",
+        "3:",
+        "   li {err}, {err_val}",
+        "   li {x}, 0",
+        "   jump 2b, {_tmp}",
+        "   .previous",
+        "   .section __ex_table,\"a\"",
+        "   .balign 8",
+        "   .dword 1b, 3b",
+        "   .previous",
+        err = inout(reg) err,
+        x = out(reg) x,
+        ptr = in(reg) ptr,
+        err_val = const (-(LinuxError::EFAULT as isize)),
+        _tmp = out(reg) _tmp,
+    )}
+    (x, err)
+}
+
+//
+// access_ok: - Checks if a user space pointer is valid
+// @addr: User space pointer to start of block to check
+// @size: Size of block to check
+//
+// Context: User context only.  This function may sleep.
+//
+// Checks if a pointer to a block of memory in user space is valid.
+//
+// Returns true (nonzero) if the memory block may be valid, false (zero)
+// if it is definitely invalid.
+//
+// Note that, depending on architecture, this function probably just
+// checks that the pointer is in the user space range - after calling
+// this function, memory access functions may still return -EFAULT.
+//
+#[inline]
+pub fn access_ok(addr: usize, size: usize) -> bool {
+    size <= TASK_SIZE && addr <= TASK_SIZE - size
+}
+
+#[inline]
+pub fn fault_in_readable(addr: usize, size: usize) -> usize {
+    if !access_ok(addr, size) {
+        return linux_err!(EFAULT);
+    }
+
+    let (_, err) = __get_user_asm(addr);
+    if err != 0 {
+        error!("__get_user_asm: err = {:#x}", err);
+        return err;
+    }
+    0
 }
 
 pub const EXC_INST_PAGE_FAULT: usize = 12;
