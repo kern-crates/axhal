@@ -1,0 +1,11 @@
+{
+  "name": "axhal",
+  "description": "HAL for lkmodel.",
+  "authors": [{
+    "name": "Shi Lei",
+    "email": "shi_lei@massclouds.com"
+  }],
+  "keywords": ["hal", "boot"],
+  "repo": "shilei-massclouds/axhal",
+  "doc_url": "https://github.com/shilei-massclouds/axhal/blob/main/README.md"
+}

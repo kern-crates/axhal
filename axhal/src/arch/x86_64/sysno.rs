@@ -46,6 +46,7 @@ pub const LINUX_SYSCALL_GETTID: usize = 186;
 pub const LINUX_SYSCALL_FCHMOD: usize = 91;
 pub const LINUX_SYSCALL_FCHMODAT: usize = 268;
 pub const LINUX_SYSCALL_FCHOWNAT: usize = 260;
+pub const LINUX_SYSCALL_FCHOWN: usize = 93;
 
 pub const LINUX_SYSCALL_CAPGET: usize = 125;
 
@@ -73,5 +74,18 @@ pub const LINUX_SYSCALL_SETPGID: usize = 109;
 pub const LINUX_SYSCALL_VFORK: usize = 58;
 pub const LINUX_SYSCALL_CLOCK_NANOSLEEP: usize = 230;
 pub const LINUX_SYSCALL_MOUNT: usize = 165;
+pub const LINUX_SYSCALL_UMOUNT2: usize = 166;
 pub const LINUX_SYSCALL_FUTEX: usize = 202;
+pub const LINUX_SYSCALL_MKNODAT: usize = 259;
 pub const LINUX_SYSCALL_UTIMENSAT: usize = 280;
+pub const LINUX_SYSCALL_PIPE2: usize = 293;
+pub const LINUX_SYSCALL_STATFS: usize = 137;
+pub const LINUX_SYSCALL_UMASK: usize = 95;
+pub const LINUX_SYSCALL_SETUID: usize = 105;
+pub const LINUX_SYSCALL_SETGID:usize = 106;
+pub const LINUX_SYSCALL_LINKAT: usize = 265;
+pub const LINUX_SYSCALL_SYMLINKAT: usize = 266;
+pub const LINUX_SYSCALL_SETREUID: usize = 113;
+pub const LINUX_SYSCALL_FGETXATTR: usize = 193;
+pub const LINUX_SYSCALL_FALLOCATE: usize = 285;
+pub const LINUX_SYSCALL_MREMAP: usize = 25;
